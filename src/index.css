@@ -1,5 +1,312 @@
+/* ------------------------------------------------------------------ *
+ *  JetBrains Mono is already loaded for the technical / mono face      *
+ *  used across the current portfolio. This pass introduces no new      *
+ *  webfont: the display and body stacks resolve to system fonts.       *
+ * ------------------------------------------------------------------ */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ==================================================================
+ * PASS 5A — PREMIUM IMMERSIVE DESIGN FOUNDATION
+ * ------------------------------------------------------------------
+ * Additive design tokens plus reusable primitives for the cinematic,
+ * editorial redesign. Nothing here changes the existing components:
+ * they keep using the original primary / dark utilities, while the new
+ * canvas / surface / fg / hairline / signal tokens and the primitives
+ * below are available to the phases that rebuild the sections.
+ * ================================================================== */
+
+@layer base {
+  :root {
+    /* RGB channel triples so Tailwind can apply alpha (e.g. bg-canvas/40).
+     * ---- Editorial light palette ---------------------------------- */
+    --canvas: 247 246 243;          /* page background           */
+    --canvas-2: 255 255 255;        /* alternate / visual canvas */
+    --surface: 252 252 250;         /* panel surface             */
+    --elevated: 255 255 255;        /* raised surface            */
+
+    /* PASS 5K — light-theme foreground ramp.
+     * These four tokens were previously copied from the dark palette
+     * (off-white text), which rendered near-invisible on the off-white
+     * canvas. They are now a dark graphite / near-black ramp so primary,
+     * secondary, tertiary and faint text all clear WCAG AA (>= 4.5:1)
+     * against --canvas (#F7F6F3) with clear tonal hierarchy.
+     * The .dark block below overrides these independently, so dark mode
+     * is unaffected by anything in this :root scope. */
+    --fg: 23 24 27;                 /* #17181B primary text   ~17.0:1 */
+    --fg-muted: 69 72 80;           /* #454850 secondary text  ~8.5:1 */
+    --fg-subtle: 96 100 109;        /* #60646D tertiary/meta   ~5.5:1 */
+    --fg-faint: 106 110 120;        /* #6A6E78 faint/disabled  ~4.7:1 */
+
+    /* Subtle but visible warm-grey hairlines, strengthened just enough to
+     * read as structure on the off-white canvas without turning heavy. */
+    --hairline: 216 214 206;        /* #D8D6CE subtle 1px border ~1.35:1 */
+    --hairline-strong: 184 181 172; /* #B8B5AC stronger divider  ~1.90:1 */
+
+    /* PASS 5H — restrained cool blue accent (#3A63E8). The deeper step
+     * keeps markers and text selection legible on the off-white canvas. */
+    --signal: 58 99 232;
+    --signal-contrast: 255 255 255;
+
+    /* Motion + rhythm tokens, usable from plain CSS and arbitrary values. */
+    --dur-micro: 150ms;
+    --dur-ui: 300ms;
+    --dur-cine: 700ms;
+    --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --space-section: clamp(5rem, 12vw, 11rem);
+    --space-section-tight: clamp(3.5rem, 8vw, 7rem);
+    --gutter: clamp(1rem, 4vw, 2.5rem);
+
+    color-scheme: light;
+  }
+
+  .dark {
+    /* ---- Cinematic near-black palette (PASS 5H graphite) ----------- */
+    --canvas: 5 5 6;
+    --canvas-2: 10 10 12;
+    --surface: 16 17 20;          /* #101114 */
+    --elevated: 21 23 26;         /* #15171A */
+
+    --fg: 244 244 240;
+    --fg-muted: 184 186 192;
+    --fg-subtle: 133 136 145;
+    --fg-faint: 95 100 106;
+
+    --hairline: 36 38 43;         /* #24262B */
+    --hairline-strong: 52 55 64;  /* #343740 */
+
+    /* PASS 5H — restrained cool blue accent (#5B8CFF) on near-black. */
+    --signal: 91 140 255;
+    --signal-contrast: 5 5 6;
+
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: rgb(var(--canvas));
+    color: rgb(var(--fg));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: rgb(var(--signal));
+    color: rgb(var(--signal-contrast));
+  }
+
+  /* Oversized editorial headings must never cause horizontal overflow. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    overflow-wrap: break-word;
+  }
+
+  /* Smooth anchor glide only when motion is welcome. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Global safety net for visitors who ask for less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ==================================================================
+ * Reusable premium primitives. Kept in @layer components so Tailwind
+ * utilities always win whenever a future section needs a one-off
+ * override. Nothing here is referenced by the current components.
+ * ================================================================== */
+@layer components {
+  /* ---- Section rhythm ------------------------------------------- */
+  .section {
+    padding-block: var(--space-section);
+  }
+  .section-tight {
+    padding-block: var(--space-section-tight);
+  }
+  .gutter-x {
+    padding-inline: var(--gutter);
+  }
+
+  /* ---- Hairlines / dividers ------------------------------------- */
+  .hairline {
+    border: 1px solid rgb(var(--hairline));
+  }
+  .hairline-t {
+    border-top: 1px solid rgb(var(--hairline));
+  }
+  .hairline-b {
+    border-bottom: 1px solid rgb(var(--hairline));
+  }
+  .hairline-l {
+    border-left: 1px solid rgb(var(--hairline));
+  }
+  .hairline-r {
+    border-right: 1px solid rgb(var(--hairline));
+  }
+  .hairline-y {
+    border-top: 1px solid rgb(var(--hairline));
+    border-bottom: 1px solid rgb(var(--hairline));
+  }
+  .rule {
+    height: 1px;
+    width: 100%;
+    border: 0;
+    background-color: rgb(var(--hairline));
+  }
+
+  /* ---- Surfaces -------------------------------------------------- */
+  .surface {
+    background-color: rgb(var(--surface));
+    border: 1px solid rgb(var(--hairline));
+  }
+  .surface-quiet {
+    background-color: rgb(var(--surface) / 0.5);
+    border: 1px solid rgb(var(--hairline) / 0.7);
+  }
+  .surface-elevated {
+    background-color: rgb(var(--elevated));
+    border: 1px solid rgb(var(--hairline-strong));
+  }
+  .panel {
+    background-color: rgb(var(--surface));
+    border: 1px solid rgb(var(--hairline));
+    padding: var(--gutter);
+  }
+  /* Container for images / video / canvas / future 3D surfaces. */
+  .visual-frame {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgb(var(--hairline));
+    background-color: rgb(var(--canvas-2));
+  }
+  .visual-frame > img,
+  .visual-frame > video,
+  .visual-frame > canvas,
+  .visual-frame > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---- Editorial typography ------------------------------------- */
+  .display {
+    font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+      'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+  .lede {
+    font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+      'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: rgb(var(--fg-muted));
+  }
+  .measure {
+    max-width: 68ch;
+  }
+
+  .label {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
+      monospace;
+    font-size: 0.6875rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: rgb(var(--fg-subtle));
+  }
+  .label-strong {
+    color: rgb(var(--fg));
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
+      monospace;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgb(var(--fg-subtle));
+  }
+
+  /* ---- Decorative backdrops ------------------------------------- */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(var(--fg) / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--fg) / 0.05) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+  }
+  .bg-grid-fine {
+    background-image:
+      linear-gradient(to right, rgb(var(--fg) / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--fg) / 0.04) 1px, transparent 1px);
+    background-size: 1.5rem 1.5rem;
+  }
+
+  /* ---- Motion primitives ---------------------------------------- */
+  .motion-micro {
+    transition-property: color, background-color, border-color, opacity, transform;
+    transition-duration: var(--dur-micro);
+    transition-timing-function: var(--ease-premium);
+  }
+  .motion-ui {
+    transition-property: color, background-color, border-color, opacity, transform,
+      box-shadow;
+    transition-duration: var(--dur-ui);
+    transition-timing-function: var(--ease-smooth);
+  }
+  .motion-cine {
+    transition-property: color, background-color, border-color, opacity, transform,
+      box-shadow;
+    transition-duration: var(--dur-cine);
+    transition-timing-function: var(--ease-premium);
+  }
+  .hover-lift {
+    will-change: transform;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hover-lift {
+      will-change: auto;
+    }
+    .hover-lift:hover {
+      transform: none;
+    }
+  }
+}
+
+/* ---- Layout helpers the shared scale cannot express -------------- */
+@layer utilities {
+  .min-h-hero {
+    min-height: 100svh;
+  }
+  .min-h-stage {
+    min-height: 100dvh;
+  }
+}

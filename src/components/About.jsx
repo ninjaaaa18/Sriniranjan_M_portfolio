@@ -1,78 +1,135 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import ScrollReveal from './ScrollReveal';
+
+// Technical interests — the three focus areas listed in the right column.
+// Factual labels only: no levels, years, tools or claims beyond these.
+const INTERESTS = [
+  { number: '01', title: 'Software Development', description: 'Building practical applications and exploring modern web technologies.' },
+  { number: '02', title: 'Artificial Intelligence', description: 'Exploring machine learning and computer vision through hands-on projects.' },
+  { number: '03', title: 'Cybersecurity', description: 'Learning about security concepts through technical challenges and CTF practice.' }
+];
+
+// Decorative corner accents, kept out of the accessibility tree.
+const CornerTicks = () => (
+  <>
+    <div className="absolute -top-1 -left-1 h-2 w-2 bg-primary-200 dark:bg-dark-700"></div>
+    <div className="absolute -top-1 -right-1 h-2 w-2 bg-primary-200 dark:bg-dark-700"></div>
+    <div className="absolute -bottom-1 -left-1 h-2 w-2 bg-primary-200 dark:bg-dark-700"></div>
+    <div className="absolute -bottom-1 -right-1 h-2 w-2 bg-primary-200 dark:bg-dark-700"></div>
+  </>
+);
 
 const About = () => {
+  // The section's bottom edge hugs its content (pt-20 only). The About →
+  // Skills separation is carried by the Skills section's own top spacing, so
+  // the two section paddings never stack into a large empty band.
   return (
-    <section id="about" className="min-h-screen bg-primary-50 dark:bg-dark-900 py-20 transition-colors duration-200">
+    <section
+      id="about"
+      aria-labelledby="about-heading"
+      className="bg-primary-50 dark:bg-dark-900 pt-20 transition-colors duration-200"
+    >
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-primary-900 dark:text-dark-50 mb-12 font-mono">
-            <span className="border-b-2 border-primary-200 dark:border-dark-700 pb-2">ABOUT</span>
-          </h2>
+        {/* Same container width as Skills / Projects so the columns below
+            share one editorial grid. */}
+        <div className="mx-auto max-w-6xl">
+          {/* Section head: eyebrow label and oversized heading on one
+              trigger — the same chapter language as Skills/Projects. */}
+          <ScrollReveal
+            as="div"
+            selector=":scope > *"
+            stagger={0.1}
+            className="mb-12 flex flex-col gap-5"
+          >
+            <p className="eyebrow flex items-center gap-3">
+              <span aria-hidden="true" className="h-1.5 w-1.5 bg-signal" />
+              About Me
+            </p>
 
-          <div className="space-y-8">
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-lg text-primary-700/80 dark:text-dark-200/80 font-mono leading-relaxed"
+            <h2
+              id="about-heading"
+              className="display max-w-[24ch] text-display-md text-fg md:text-display-lg"
             >
-              I'm a software engineer with a passion for creating elegant solutions to complex problems. 
-              My journey in technology began with a curiosity about how things work, which evolved into 
-              a deep appreciation for clean, efficient code and user-centered design.
-            </motion.p>
+              Curious about technology. Driven to build. Always learning.
+            </h2>
+          </ScrollReveal>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-lg text-primary-700/80 dark:text-dark-200/80 font-mono leading-relaxed"
+          {/* Two-column editorial body: narrative on the left, the framed
+              interests panel on the right. Stacks to a single column on
+              mobile in natural reading order. */}
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-10 lg:gap-14">
+            {/* Left column: the three approved paragraphs, revealed with the
+                same per-paragraph stagger the previous About panel used. */}
+            <ScrollReveal
+              as="div"
+              selector=":scope > p"
+              stagger={0.1}
+              duration={0.7}
+              className="flex flex-col gap-6 md:col-span-7"
             >
-              With experience in both frontend and backend development, I focus on building scalable 
-              applications that deliver exceptional user experiences. I believe in writing code that 
-              is not only functional but also maintainable and well-documented.
-            </motion.p>
+              <p className="text-base sm:text-lg text-primary-700 dark:text-dark-200 leading-relaxed break-words">
+                I&rsquo;m an Information Science and Engineering student at Atria Institute of
+                Technology, Bengaluru, interested in software development, artificial intelligence,
+                and cybersecurity.
+              </p>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              viewport={{ once: true }}
-              className="pt-8"
-            >
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 font-mono">
-                <span className="border-b border-gray-800 dark:border-white/20 pb-1">TECHNICAL SKILLS</span>
-              </h3>
-              
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {[
-                  'JavaScript', 'TypeScript', 'React', 'Node.js',
-                  'Python', 'SQL', 'AWS', 'Docker',
-                  'Git', 'CI/CD', 'REST APIs', 'GraphQL'
-                ].map((skill, index) => (
-                  <motion.div
-                    key={skill}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 * index, duration: 0.5 }}
-                    viewport={{ once: true }}
-                    className="text-gray-800/80 dark:text-white/80 font-mono text-sm uppercase tracking-widest"
-                  >
-                    {skill}
-                  </motion.div>
-                ))}
+              <p className="text-base sm:text-lg text-primary-700 dark:text-dark-200 leading-relaxed break-words">
+                I enjoy turning ideas into practical applications, exploring new technologies, and
+                learning by building projects. From developing web applications to experimenting
+                with machine learning, I like understanding how things work and finding ways to
+                make them useful.
+              </p>
+
+              <p className="text-base sm:text-lg text-primary-700 dark:text-dark-200 leading-relaxed break-words">
+                Hackathons and technical challenges give me opportunities to experiment with ideas,
+                collaborate with others, and approach unfamiliar problems from different
+                perspectives.
+              </p>
+            </ScrollReveal>
+
+            {/* Right column: framed panel — the same border weight, corner
+                treatment and surface tint the previous About panel and the
+                project, skill, hackathon and CTF cards already use. Hairline
+                separators only; no filled card, shadow or gradient. */}
+            <div className="relative md:col-span-5">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 border border-primary-200 dark:border-dark-700 bg-primary-100/30 dark:bg-dark-800/30"
+              >
+                <CornerTicks />
               </div>
-            </motion.div>
+
+              <ScrollReveal
+                as="div"
+                selector=":scope > *"
+                stagger={0.1}
+                duration={0.7}
+                className="relative p-6 sm:p-8"
+              >
+                <h3 className="label label-strong">Technical Interests</h3>
+
+                <ul className="mt-6">
+                  {INTERESTS.map((item) => (
+                    <li
+                      key={item.number}
+                      className="border-t border-hairline py-5 first:border-t-0 first:pt-0"
+                    >
+                      <div className="flex items-baseline gap-4">
+                        <span aria-hidden="true" className="label text-fg-faint">
+                          {item.number}
+                        </span>
+                        <h4 className="label label-strong min-w-0 break-words">{item.title}</h4>
+                      </div>
+
+                      <p className="mt-2 text-sm leading-relaxed text-primary-700 dark:text-dark-200 break-words">
+                        {item.description}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </ScrollReveal>
+            </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

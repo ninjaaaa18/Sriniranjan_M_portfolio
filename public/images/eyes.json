@@ -1,0 +1,22 @@
+{
+  "image": {
+    "width": 1600,
+    "height": 900,
+    "base": "/images/portrait-base.png",
+    "pupils": "/images/portrait-pupils.png"
+  },
+  "eyes": {
+    "left": {
+      "x": 1050,
+      "y": 315,
+      "radius": 9,
+      "maxOffset": 6
+    },
+    "right": {
+      "x": 1190,
+      "y": 315,
+      "radius": 9,
+      "maxOffset": 6
+    }
+  }
+}

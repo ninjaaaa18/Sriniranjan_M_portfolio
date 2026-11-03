@@ -1,74 +1,114 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import ScrollReveal from './ScrollReveal';
 
-const values = [
+// PASS 5F — CTF / cybersecurity learning index.
+// Four learning / practice areas, unchanged in scope. Each description explains
+// what the field involves and must never imply professional experience,
+// proficiency, certification, or competition results.
+const focusAreas = [
   {
-    title: 'EXCELLENCE',
-    description: 'Striving for the highest quality in every project, ensuring clean code and optimal performance.',
-    icon: '✨'
+    title: 'WEB EXPLOITATION',
+    description: 'Learning about web application security, common vulnerabilities, and how web systems can be tested.'
   },
   {
-    title: 'INNOVATION',
-    description: 'Embracing new technologies and creative solutions to solve complex problems.',
-    icon: '🚀'
+    title: 'REVERSE ENGINEERING',
+    description: 'Exploring how programs work by analyzing binaries, behavior, and underlying logic.'
   },
   {
-    title: 'COLLABORATION',
-    description: 'Working effectively with teams to create impactful solutions through shared knowledge.',
-    icon: '🤝'
+    title: 'CRYPTOGRAPHY',
+    description: 'Studying cryptographic concepts and solving challenges involving encryption, encoding, and ciphers.'
   },
   {
-    title: 'GROWTH',
-    description: 'Continuously learning and improving to stay at the forefront of technology.',
-    icon: '📈'
+    title: 'OSINT & LINUX',
+    description: 'Learning information-gathering techniques, command-line workflows, and Linux-based investigation.'
   }
 ];
 
 const Value = () => {
+  const prefersReducedMotion = useReducedMotion();
+  // Row shift is the only transform: a small, local Framer hover interaction,
+  // disabled entirely when the visitor prefers reduced motion.
+  const rowShift = prefersReducedMotion ? undefined : { x: 6 };
+
+  // `pt-16` + `pb-0` at the facing edges only (Tailwind utilities beat the
+  // components layer): the last Hackathons chapter trails its own py-16
+  // (~64px), so a single ~88px gap separates it from this heading, while the
+  // next separation is carried by Contact's own top spacing. `min-h-screen`
+  // is removed — it stretched this short index to a full viewport of space.
   return (
-    <section id="values" className="min-h-screen bg-primary-50 dark:bg-dark-900 py-20 transition-colors duration-200">
+    <section
+      id="ctf"
+      aria-labelledby="ctf-heading"
+      className="section-tight pt-16 pb-0 bg-primary-50 dark:bg-dark-900 transition-colors duration-200"
+    >
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="max-w-6xl mx-auto"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-primary-900 dark:text-dark-50 mb-12 font-mono">
-            <span className="border-b-2 border-primary-200 dark:border-dark-700 pb-2">VALUES</span>
-          </h2>
+        <div className="max-w-6xl mx-auto">
+          {/* Quieter technical appendix: the section title and the existing
+              learning framing share one trigger. */}
+          <ScrollReveal
+            as="div"
+            selector=":scope > *"
+            stagger={0.1}
+            className="mb-10 flex flex-col items-start gap-5 md:mb-14"
+          >
+            <h2
+              id="ctf-heading"
+              className="text-display-xl md:text-display-2xl font-bold text-primary-900 dark:text-dark-50"
+            >
+              <span className="border-b-2 border-primary-200 dark:border-dark-700 pb-2">
+                CTF / CYBERSECURITY
+              </span>
+            </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {values.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 * index, duration: 0.8 }}
-                viewport={{ once: true }}
-                className="group relative"
+            {/* Same accent label treatment as the project event tag: the
+                framing is carried by text, never by implication. */}
+            <p className="label border border-accent-400/40 bg-accent-400/10 px-3 py-1.5 text-accent-700 dark:border-accent-500/40 dark:bg-accent-500/10 dark:text-accent-400">
+              Learning / Practice
+            </p>
+          </ScrollReveal>
+
+          {/* One restrained reveal for the whole index — no per-area triggers.
+              Rows shift and their rule extends on hover only. */}
+          <ScrollReveal
+            as="ul"
+            role="list"
+            selector=":scope > li"
+            stagger={0.08}
+            className="border-b border-hairline"
+          >
+            {focusAreas.map((area, index) => (
+              <motion.li
+                key={area.title}
+                whileHover={rowShift}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+                className="group/item border-t border-hairline"
               >
-                <div className="absolute inset-0 border border-primary-200 dark:border-dark-700 group-hover:border-primary-300 dark:group-hover:border-dark-600 transition-colors duration-300">
-                  <div className="absolute -top-1 -left-1 w-2 h-2 bg-primary-200 dark:bg-dark-700 group-hover:bg-primary-300 dark:group-hover:bg-dark-600 transition-colors duration-300"></div>
-                  <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary-200 dark:bg-dark-700 group-hover:bg-primary-300 dark:group-hover:bg-dark-600 transition-colors duration-300"></div>
-                  <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-primary-200 dark:bg-dark-700 group-hover:bg-primary-300 dark:group-hover:bg-dark-600 transition-colors duration-300"></div>
-                  <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-primary-200 dark:bg-dark-700 group-hover:bg-primary-300 dark:group-hover:bg-dark-600 transition-colors duration-300"></div>
+                <div className="flex items-baseline gap-4 py-5 md:gap-8 md:py-6">
+                  <span
+                    aria-hidden="true"
+                    className="label text-fg-faint transition-colors duration-300 ease-premium group-hover/item:text-fg-muted motion-reduce:transition-none"
+                  >
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-mono text-sm font-semibold uppercase tracking-widest text-fg md:text-base break-words">
+                      {area.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-fg-muted break-words">
+                      {area.description}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="p-8">
-                  <div className="text-4xl mb-4">{value.icon}</div>
-                  <h3 className="text-xl font-bold text-primary-900 dark:text-dark-50 mb-4 font-mono">
-                    {value.title}
-                  </h3>
-                  <p className="text-primary-600/60 dark:text-dark-300/60 font-mono text-sm">
-                    {value.description}
-                  </p>
-                </div>
-              </motion.div>
+                <span
+                  aria-hidden="true"
+                  className="block h-px w-0 bg-accent-500/70 transition-[width] duration-700 ease-premium group-hover/item:w-full motion-reduce:transition-none"
+                ></span>
+              </motion.li>
             ))}
-          </div>
-        </motion.div>
+          </ScrollReveal>
+        </div>
       </div>
     </section>
   );

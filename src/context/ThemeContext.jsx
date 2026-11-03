@@ -1,4 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+/* eslint-disable react/prop-types -- declarative API by design; the project
+   does not ship the prop-types package (see ScrollReveal for the same pattern). */
+/* eslint-disable react-refresh/only-export-components -- ThemeProvider and its
+   useTheme hook are intentionally co-located; splitting them would add no value. */
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext();
 

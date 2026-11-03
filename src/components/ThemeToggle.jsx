@@ -1,13 +1,9 @@
-import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 
 const ThemeToggle = () => {
   const { isDarkMode, toggleTheme } = useTheme();
 
-  console.log('ThemeToggle rendering - isDarkMode:', isDarkMode);
-
   const handleClick = () => {
-    console.log('Theme toggle clicked - current isDarkMode:', isDarkMode);
     toggleTheme();
   };
 
@@ -20,7 +16,7 @@ const ThemeToggle = () => {
       {isDarkMode ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5 text-yellow-500"
+          className="h-5 w-5 text-signal"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
