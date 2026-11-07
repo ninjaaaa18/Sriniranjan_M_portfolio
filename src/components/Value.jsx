@@ -49,21 +49,22 @@ const Value = () => {
             as="div"
             selector=":scope > *"
             stagger={0.1}
-            className="mb-10 flex flex-col items-start gap-5 md:mb-14"
+            className="mb-6 flex flex-col items-start gap-4 md:mb-8"
           >
             <h2
               id="ctf-heading"
-              className="text-display-xl md:text-display-2xl font-bold text-primary-900 dark:text-dark-50"
+              className="section-heading"
             >
-              <span className="border-b-2 border-primary-200 dark:border-dark-700 pb-2">
-                CTF / CYBERSECURITY
-              </span>
+              CTF /
+              <span className="block">CYBERSECURITY</span>
             </h2>
 
             {/* Same accent label treatment as the project event tag: the
                 framing is carried by text, never by implication. */}
-            <p className="label border border-accent-400/40 bg-accent-400/10 px-3 py-1.5 text-accent-700 dark:border-accent-500/40 dark:bg-accent-500/10 dark:text-accent-400">
-              Learning / Practice
+            <p
+              className="text-sm text-fg muted-600 dark:text-muted-400 mb-4 mt-2"
+            >
+              LEARNING / PRACTICE
             </p>
           </ScrollReveal>
 
@@ -74,14 +75,14 @@ const Value = () => {
             role="list"
             selector=":scope > li"
             stagger={0.08}
-            className="border-b border-hairline"
+            className="border-b border-hairline pb-4"
           >
             {focusAreas.map((area, index) => (
               <motion.li
                 key={area.title}
                 whileHover={rowShift}
                 transition={{ duration: 0.25, ease: 'easeOut' }}
-                className="group/item border-t border-hairline"
+                className="group/item border-b border-hairline pb-3 md:pb-4"
               >
                 <div className="flex items-baseline gap-4 py-5 md:gap-8 md:py-6">
                   <span

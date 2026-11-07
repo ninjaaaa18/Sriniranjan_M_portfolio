@@ -1,7 +1,6 @@
 import ScrollReveal from './ScrollReveal';
 
 // Technical interests — the three focus areas listed in the right column.
-// Factual labels only: no levels, years, tools or claims beyond these.
 const INTERESTS = [
   { number: '01', title: 'Software Development', description: 'Building practical applications and exploring modern web technologies.' },
   { number: '02', title: 'Artificial Intelligence', description: 'Exploring machine learning and computer vision through hands-on projects.' },
@@ -19,9 +18,6 @@ const CornerTicks = () => (
 );
 
 const About = () => {
-  // The section's bottom edge hugs its content (pt-20 only). The About →
-  // Skills separation is carried by the Skills section's own top spacing, so
-  // the two section paddings never stack into a large empty band.
   return (
     <section
       id="about"
@@ -29,11 +25,7 @@ const About = () => {
       className="bg-primary-50 dark:bg-dark-900 pt-20 transition-colors duration-200"
     >
       <div className="container mx-auto px-4">
-        {/* Same container width as Skills / Projects so the columns below
-            share one editorial grid. */}
         <div className="mx-auto max-w-6xl">
-          {/* Section head: eyebrow label and oversized heading on one
-              trigger — the same chapter language as Skills/Projects. */}
           <ScrollReveal
             as="div"
             selector=":scope > *"
@@ -53,12 +45,7 @@ const About = () => {
             </h2>
           </ScrollReveal>
 
-          {/* Two-column editorial body: narrative on the left, the framed
-              interests panel on the right. Stacks to a single column on
-              mobile in natural reading order. */}
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-10 lg:gap-14">
-            {/* Left column: the three approved paragraphs, revealed with the
-                same per-paragraph stagger the previous About panel used. */}
             <ScrollReveal
               as="div"
               selector=":scope > p"
@@ -86,10 +73,6 @@ const About = () => {
               </p>
             </ScrollReveal>
 
-            {/* Right column: framed panel — the same border weight, corner
-                treatment and surface tint the previous About panel and the
-                project, skill, hackathon and CTF cards already use. Hairline
-                separators only; no filled card, shadow or gradient. */}
             <div className="relative md:col-span-5">
               <div
                 aria-hidden="true"
@@ -117,7 +100,9 @@ const About = () => {
                         <span aria-hidden="true" className="label text-fg-faint">
                           {item.number}
                         </span>
-                        <h4 className="label label-strong min-w-0 break-words">{item.title}</h4>
+                        <h4 className="label label-strong min-w-0 break-words">
+                          {item.title}
+                        </h4>
                       </div>
 
                       <p className="mt-2 text-sm leading-relaxed text-primary-700 dark:text-dark-200 break-words">
@@ -126,6 +111,25 @@ const About = () => {
                     </li>
                   ))}
                 </ul>
+
+                {/* Highlighted CGPA */}
+                <div className="mt-6 border border-primary-300/40 dark:border-accent-400/30 bg-primary-100/50 dark:bg-accent-400/5 px-4 py-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <span className="text-xs font-mono font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-accent-400">
+                      Current CGPA
+                    </span>
+
+                    <span className="text-3xl font-bold font-mono tracking-tight text-primary-900 dark:text-dark-50">
+                      8.30
+                    </span>
+                  </div>
+
+                  <div className="mt-3 h-px w-full bg-primary-200 dark:bg-dark-700"></div>
+
+                  <p className="mt-3 text-xs tracking-wide text-primary-700 dark:text-dark-200">
+                    Atria Institute of Technology
+                  </p>
+                </div>
               </ScrollReveal>
             </div>
           </div>

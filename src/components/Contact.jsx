@@ -91,7 +91,7 @@ const Contact = () => {
             <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 bg-signal" />
             <h2
               id="contact-heading"
-              className="text-4xl md:text-5xl font-bold text-primary-900 dark:text-dark-50 font-mono"
+              className="section-heading"
             >
               <span className="border-b-2 border-primary-200 dark:border-dark-700 pb-2">
                 CONTACT
